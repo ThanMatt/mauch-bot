@@ -30,6 +30,7 @@ mongoose.connection.once('open', () => {
 
 client.on('ready', () => {
   console.log(`${client.user.tag} connection: Success`)
+  client.user.setActivity('?help', { type: 'PLAYING' })
 })
 
 const url = 'https://www.mangareader.net'
@@ -51,7 +52,7 @@ initializeManga().then((data) => {
         const currentGuild = await Guild.findOne({ guildId: guild.id })
 
         if (!currentGuild) {
-          const newGuild = new Guild({ guildId: guild.id, guildPrefix: '-' })
+          const newGuild = new Guild({ guildId: guild.id, guildPrefix: '?' })
           newGuild.save()
 
           console.log(`New guild: ${newGuild}`)
@@ -60,7 +61,7 @@ initializeManga().then((data) => {
             return
           }
 
-          if (content.startsWith('-')) {
+          if (content.startsWith('?')) {
             processCommand(receivedMessage)
           }
         } else {
@@ -82,7 +83,7 @@ initializeManga().then((data) => {
           return
         }
 
-        if (content.startsWith('-')) {
+        if (content.startsWith('?')) {
           processCommand(receivedMessage)
         }
       }
