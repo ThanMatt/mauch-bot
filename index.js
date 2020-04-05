@@ -141,21 +141,23 @@ const processCommand = (receivedMessage) => {
 
     case 'help':
       prefix = receivedMessage.content[0]
-      client.commands.get('help').execute(receivedMessage, primaryColor, prefix)
+      client.commands
+        .get('help')
+        .execute(receivedMessage, primaryColor, prefix, client.commands)
       break
 
     case 'reset':
       client.commands.get('reset').execute(receivedMessage, client, status)
       break
 
-    case 'prefix':
+    case 'mauchPrefix':
       if (receivedMessage.guild) {
         prefix = receivedMessage.content.substr(primaryCommand.length + 2)
 
         if (prefix.length > 1 || prefix.length < 1) {
           receivedMessage.channel.send(`Must be at least one character long`)
         } else {
-          client.commands.get('prefix').execute(receivedMessage, prefix)
+          client.commands.get('mauchPrefix').execute(receivedMessage, prefix)
         }
       } else {
         client.users

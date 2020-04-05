@@ -2,7 +2,7 @@ const User = require('../models/User')
 
 module.exports = {
   name: 'remove',
-  description: 'removes a specified manga in your susbcriptions',
+  description: 'Removes a specified manga from your subscription',
   execute(message, manga) {
     if (!manga) {
       message.channel.send(

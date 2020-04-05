@@ -1,8 +1,8 @@
 const Guild = require('../models/Guild')
 
 module.exports = {
-  name: 'prefix',
-  description: 'Changes the prefix for a server',
+  name: 'mauchPrefix',
+  description: 'Changes the server prefix',
   async execute(message, assignedPrefix) {
     try {
       if (message.guild) {
