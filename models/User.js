@@ -6,18 +6,22 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  mangaSubscribed: {
-    type: String,
-    required: true
-  },
-  dateReleased: {
-    type: String,
-    required: true
-  },
-  chapters: {
-    type: Number,
-    required: true
-  }
+  subscribedMangas: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      dateReleased: {
+        type: String,
+        required: true
+      },
+      chapters: {
+        type: Number,
+        required: true
+      }
+    }
+  ]
 })
 
 const User = mongoose.model('user', userSchema)

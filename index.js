@@ -37,7 +37,7 @@ const primaryColor = 0x7b6357
 
 // !! Polling for updates
 setInterval(() => {
-  notifyIfUpdated(url, client, primaryColor)
+  notifyIfUpdated(url, client)
 }, 10000)
 
 let mangaList = []
