@@ -3,7 +3,12 @@ const mongoose = require('mongoose')
 const Discord = require('discord.js')
 const fs = require('fs')
 const Guild = require('./models/Guild')
-const { notifyIfUpdated, initializeManga, getName } = require('./utils')
+const {
+  notifyIfUpdated,
+  initializeManga,
+  getName,
+  detectHotword
+} = require('./utils')
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -63,7 +68,7 @@ initializeManga().then((data) => {
 
           if (content.startsWith('?')) {
             processCommand(receivedMessage)
-          } else if (content.match(/(im|i am|i'm)/gi).length) {
+          } else if (detectHotword(content)) {
             const name = getName(content)
             receivedMessage.channel.send(`Hi ${name}, I'm dad`)
           }
@@ -77,7 +82,7 @@ initializeManga().then((data) => {
           if (content.startsWith(guildPrefix)) {
             console.log(receivedMessage.content)
             processCommand(receivedMessage)
-          } else if (content.match(/(im|i am|i'm)\b.\w{2}/gi)?.length) {
+          } else if (detectHotword(content)) {
             const name = getName(content)
             receivedMessage.channel.send(`Hi ${name}, I'm dad`)
           }

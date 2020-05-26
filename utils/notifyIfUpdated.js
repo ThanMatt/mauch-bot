@@ -3,6 +3,11 @@ const _ = require('lodash')
 const request = require('request-promise')
 const User = require('../models/User')
 
+/**
+ * @param {string} url
+ * @param {Object} client
+ */
+
 module.exports = notifyIfUpdated = async (url, client) => {
   try {
     const users = await User.find({})
