@@ -68,9 +68,6 @@ initializeManga().then((data) => {
 
           if (content.startsWith('?')) {
             processCommand(receivedMessage)
-          } else if (detectHotword(content)) {
-            const name = getName(content)
-            receivedMessage.channel.send(`Hi ${name}, I'm dad`)
           }
         } else {
           if (author === client.user) {
@@ -83,8 +80,10 @@ initializeManga().then((data) => {
             console.log(receivedMessage.content)
             processCommand(receivedMessage)
           } else if (detectHotword(content)) {
-            const name = getName(content)
-            receivedMessage.channel.send(`Hi ${name}, I'm dad`)
+            if (currentGuild.dadJokeEnabled) {
+              const name = getName(content)
+              receivedMessage.channel.send(`Hi ${name}, I'm dad`)
+            }
           }
         }
 
@@ -157,6 +156,15 @@ const processCommand = (receivedMessage) => {
         .get('help')
         .execute(receivedMessage, primaryColor, prefix, client.commands)
       break
+
+    case 'dad':
+      if (receivedMessage.guild) {
+        client.commands.get('dad').execute(receivedMessage)
+      } else {
+        client.users
+          .get(receivedMessage.author.id)
+          .send(`You're not in a server 😑`)
+      }
 
     case 'reset':
       client.commands.get('reset').execute(receivedMessage, client, status)

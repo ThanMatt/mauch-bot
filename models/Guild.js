@@ -9,6 +9,10 @@ const guildSchema = new Schema({
   guildPrefix: {
     type: String,
     required: true
+  },
+  dadJokeEnabled: {
+    type: Boolean,
+    default: false
   }
 })
 

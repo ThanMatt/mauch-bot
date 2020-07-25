@@ -8,7 +8,7 @@ module.exports = {
   description: 'Checks the info of the specified manga',
   execute(message, title, url, mangaList, primaryColor) {
     if (title.length <= 2) {
-      message.channel.send('Please search with at least 3 characters')
+      message.channel.send('Please enter at least 3 characters')
     } else {
       serializeTitle = _.kebabCase(_.toLower(title))
       mangaURL = url + '/' + serializeTitle
