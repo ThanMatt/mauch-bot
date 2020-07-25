@@ -7,9 +7,6 @@ module.exports = {
     try {
       if (message.guild) {
         const guild = await Guild.findOne({ guildId: message.guild.id })
-        console.log(guild)
-        console.log(guild.dadJokeEnabled)
-        console.log(!guild.dadJokeEnabled)
 
         guild.dadJokeEnabled = !guild?.dadJokeEnabled
         guild.save()
