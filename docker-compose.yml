@@ -6,7 +6,6 @@ services:
       - .env.development
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
     ports:
       - 4000:4000
     command: yarn run start:dev
@@ -17,6 +16,6 @@ services:
     image: mongo:4.0-xenial
     command: mongod --smallfiles --quiet
     volumes:
-      - /mongo/data/db
+      - /mongo/db
     ports:
       - 27017:27017

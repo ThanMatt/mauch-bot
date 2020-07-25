@@ -22,6 +22,8 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command)
 }
 
+console.log(process.env.MONGO_URL)
+
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useFindAndModify: false,
