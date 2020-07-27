@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   name: 'status',
   description: 'check bot status',
   execute(message, status, client) {

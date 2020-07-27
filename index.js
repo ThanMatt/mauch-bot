@@ -19,7 +19,6 @@ const commandFiles = fs
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
-  console.log(command)
   client.commands.set(command.name, command)
 }
 
@@ -122,6 +121,7 @@ const processCommand = (receivedMessage) => {
     } issued ${primaryCommand} command`
   )
   let title
+  let prefix
 
   switch (primaryCommand) {
     case 'manga':

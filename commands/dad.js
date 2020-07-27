@@ -1,6 +1,6 @@
-const Guild = require('../models/Guild')
+import Guild from '../models/Guild'
 
-export default {
+module.exports = {
   name: 'dad',
   description: 'enables/disables infamous dad joke',
   async execute(message) {

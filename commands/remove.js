@@ -1,6 +1,6 @@
-const User = require('../models/User')
+import User from '../models/User'
 
-export default {
+module.exports = {
   name: 'remove',
   description: 'Removes a specified manga from your subscription',
   execute(message, manga) {
@@ -9,7 +9,7 @@ export default {
         'Enter your subscribed manga that you want to remove'
       )
     } else {
-      username = message.author.id
+      const username = message.author.id
 
       User.findOneAndDelete({ username, mangaSubscribed: manga })
         .then((currentUser) => {

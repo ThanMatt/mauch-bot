@@ -4,11 +4,11 @@ import request from 'request-promise'
 import User from '../models/User'
 import { findRelatedManga } from '../utils'
 
-export default {
+module.exports = {
   name: 'subscribe',
   description: 'Subscribes a manga',
   async execute(message, title, url, mangaList, primaryColor) {
-    serializeTitle = _.kebabCase(_.toLower(title))
+    const serializeTitle = _.kebabCase(_.toLower(title))
 
     try {
       if (title.length <= 2) {

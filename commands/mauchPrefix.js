@@ -1,6 +1,6 @@
-const Guild = require('../models/Guild')
+import Guild from '../models/Guild'
 
-export default {
+module.exports = {
   name: 'mauchPrefix',
   description: 'Changes the server prefix',
   async execute(message, assignedPrefix) {

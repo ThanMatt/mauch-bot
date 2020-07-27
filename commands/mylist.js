@@ -1,5 +1,6 @@
-const User = require('../models/User')
-export default {
+import User from '../models/User'
+
+module.exports = {
   name: 'mylist',
   description: "Shows the user's subscribed manga list",
   async execute(message, primaryColor) {
