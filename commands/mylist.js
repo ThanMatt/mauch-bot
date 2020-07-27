@@ -1,5 +1,5 @@
 const User = require('../models/User')
-module.exports = {
+export default {
   name: 'mylist',
   description: "Shows the user's subscribed manga list",
   async execute(message, primaryColor) {

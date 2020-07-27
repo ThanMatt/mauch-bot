@@ -1,12 +1,13 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const { findRelatedManga } = require('../utils')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import { findRelatedManga } from '../utils'
 
-module.exports = {
+const command = {
   name: 'manga',
   description: 'Checks the info of the specified manga',
   execute(message, title, url, mangaList, primaryColor) {
+    console.log('title', title)
     if (title.length <= 2) {
       message.channel.send('Please enter at least 3 characters')
     } else {
@@ -66,3 +67,5 @@ module.exports = {
     }
   }
 }
+
+export { command }

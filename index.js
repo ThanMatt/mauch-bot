@@ -1,14 +1,14 @@
-const _ = require('lodash')
-const mongoose = require('mongoose')
-const Discord = require('discord.js')
-const fs = require('fs')
-const Guild = require('./models/Guild')
-const {
+import _ from 'lodash'
+import mongoose from 'mongoose'
+import Discord from 'discord.js'
+import fs from 'fs'
+import Guild from './models/Guild.js'
+import {
   notifyIfUpdated,
   initializeManga,
   getName,
   detectHotword
-} = require('./utils')
+} from './utils'
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -19,6 +19,7 @@ const commandFiles = fs
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
+  console.log(command)
   client.commands.set(command.name, command)
 }
 
@@ -120,10 +121,12 @@ const processCommand = (receivedMessage) => {
       receivedMessage.author.id
     } issued ${primaryCommand} command`
   )
+  let title
 
   switch (primaryCommand) {
     case 'manga':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
+      console.log(client.commands.get('manga'))
       client.commands
         .get('manga')
         .execute(receivedMessage, title, url, mangaList, primaryColor)

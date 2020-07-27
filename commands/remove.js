@@ -1,6 +1,6 @@
 const User = require('../models/User')
 
-module.exports = {
+export default {
   name: 'remove',
   description: 'Removes a specified manga from your subscription',
   execute(message, manga) {

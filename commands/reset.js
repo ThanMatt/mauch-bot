@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-module.exports = {
+export default {
   name: 'reset',
   description:
     'resets database connection attempt (only works if disconnected)',

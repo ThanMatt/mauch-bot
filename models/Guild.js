@@ -18,4 +18,4 @@ const guildSchema = new Schema({
 
 const Guild = mongoose.model('guild', guildSchema)
 
-module.exports = Guild
+export default Guild

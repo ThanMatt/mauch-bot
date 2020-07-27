@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   name: 'help',
   description: 'Send help command',
   execute(message, color, prefix, commands) {

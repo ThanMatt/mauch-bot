@@ -1,14 +1,13 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const User = require('../models/User')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import User from '../models/User'
 
 /**
  * @param {string} url
  * @param {Object} client
  */
-
-module.exports = notifyIfUpdated = async (url, client) => {
+export default async function notifyIfUpdated(url, client) {
   try {
     const users = await User.find({})
 

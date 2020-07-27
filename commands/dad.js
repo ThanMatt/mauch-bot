@@ -1,6 +1,6 @@
 const Guild = require('../models/Guild')
 
-module.exports = {
+export default {
   name: 'dad',
   description: 'enables/disables infamous dad joke',
   async execute(message) {

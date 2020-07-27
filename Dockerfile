@@ -10,6 +10,8 @@ RUN yarn install
 
 RUN yarn global add nodemon
 
+RUN yarn global add @babel/node
+
 COPY . .
 
 EXPOSE 4000

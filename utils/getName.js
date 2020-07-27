@@ -2,7 +2,7 @@
  * @param {string} content
  */
 
-module.exports = getName = (content) => {
+export default function getName(content) {
   const pattern = content
     .match(/(im|i am|i'm).\w+/gi, '')[0]
     .trim()
