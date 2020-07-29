@@ -21,7 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install -g yarn
+      - name: Install yarn
+        run: npm install -g yarn
+      - name: Install babel
+        run: npm install -g @babel/node
+      - name: Install packages
+        run: yarn
       - name: Login to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
