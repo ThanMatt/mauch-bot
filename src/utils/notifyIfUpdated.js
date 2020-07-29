@@ -18,6 +18,7 @@ export default async function notifyIfUpdated(url, client) {
 
         const html = await request(mangaUrl)
         let counter = 0
+        let date
 
         const $ = cheerio.load(html)
         const anchor = $('#listing tr:last-child a').attr('href')
