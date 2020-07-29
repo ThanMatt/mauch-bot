@@ -10,9 +10,9 @@ RUN yarn install
 
 RUN yarn global add @babel/node
 
-RUN ls -aslh
-
 COPY . .
+
+RUN ls -aslh
 
 RUN yarn run build
 
