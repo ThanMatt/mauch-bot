@@ -1,0 +1,19 @@
+FROM node:14-alpine
+
+WORKDIR /usr/app
+
+COPY package.json .
+
+COPY yarn.lock .
+
+RUN yarn install
+
+RUN yarn global add @babel/node
+
+RUN yarn run build
+
+COPY . .
+
+EXPOSE 4000
+
+CMD ["yarn", "start"]

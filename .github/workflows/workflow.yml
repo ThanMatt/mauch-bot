@@ -21,24 +21,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install yarn
-        run: npm install -g yarn
-      - name: Install babel
-        run: npm install -g @babel/node
-      - name: Install packages
-        run: yarn
-      - name: Build
-        run: yarn run build
-      - name: Check files
-        run: ls -aslh
       - name: Login to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
-      - name: Push
+      - name: Build and Push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} worker
+        run: heroku container:push --recursive -a ${{ secrets.HEROKU_APP_NAME }} worker
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
