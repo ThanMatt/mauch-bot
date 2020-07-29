@@ -10,9 +10,11 @@ RUN yarn install
 
 RUN yarn global add @babel/node
 
-RUN yarn run build
+RUN ls -aslh
 
 COPY . .
+
+RUN yarn run build
 
 EXPOSE 4000
 
