@@ -13,8 +13,8 @@ export default async function notifyIfUpdated(url, client) {
 
     users.forEach((user) => {
       user.subscribedMangas.forEach(async (manga) => {
-        serializeTitle = _.kebabCase(_.toLower(manga.title))
-        mangaUrl = url + '/' + serializeTitle
+        const serializeTitle = _.kebabCase(_.toLower(manga.title))
+        const mangaUrl = url + '/' + serializeTitle
 
         const html = await request(mangaUrl)
         let counter = 0
