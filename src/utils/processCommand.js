@@ -1,4 +1,4 @@
-module.exports = processCommand = (receivedMessage) => {
+export default function processCommand(receivedMessage) {
   const fullCommand = receivedMessage.content.substr(1)
   const primaryCommand = fullCommand.split(' ')[0]
   const phTime = new Date().toLocaleString('en-US', {

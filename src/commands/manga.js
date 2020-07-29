@@ -1,26 +1,27 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const { findRelatedManga } = require('../utils')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import { findRelatedManga } from '../utils'
 
 module.exports = {
   name: 'manga',
   description: 'Checks the info of the specified manga',
   execute(message, title, url, mangaList, primaryColor) {
+    console.log('title', title)
     if (title.length <= 2) {
       message.channel.send('Please enter at least 3 characters')
     } else {
-      serializeTitle = _.kebabCase(_.toLower(title))
-      mangaURL = url + '/' + serializeTitle
+      const serializeTitle = _.kebabCase(_.toLower(title))
+      const mangaURL = url + '/' + serializeTitle
 
       request(mangaURL)
         .then((html) => {
-          counter = 0
+          let counter = 0
           const $ = cheerio.load(html)
           const thumbnail = $('#mangaimg img').attr('src')
           const anchor = $('#listing tr:last-child a').attr('href')
 
-          latestChapterURL = url + anchor //!! concats the base url with the latest manga chapter url
+          const latestChapterURL = url + anchor //!! concats the base url with the latest manga chapter url
 
           $('#listing tr td:last-child').each((i, el) => {
             //!! Counts how many chapters and retrieves the latest date

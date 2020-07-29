@@ -1,4 +1,4 @@
-const User = require('../models/User')
+import User from '../models/User'
 
 module.exports = {
   name: 'remove',
@@ -9,7 +9,7 @@ module.exports = {
         'Enter your subscribed manga that you want to remove'
       )
     } else {
-      username = message.author.id
+      const username = message.author.id
 
       User.findOneAndDelete({ username, mangaSubscribed: manga })
         .then((currentUser) => {
