@@ -1,4 +1,5 @@
-const User = require('../models/User')
+import User from '../models/User'
+
 module.exports = {
   name: 'mylist',
   description: "Shows the user's subscribed manga list",

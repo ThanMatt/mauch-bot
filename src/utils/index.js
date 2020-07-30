@@ -1,0 +1,5 @@
+export { default as findRelatedManga } from './findRelatedManga'
+export { default as notifyIfUpdated } from './notifyIfUpdated'
+export { default as initializeManga } from './initializeManga'
+export { default as getName } from './getName'
+export { default as detectHotword } from './detectHotword'

@@ -1,24 +1,24 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const User = require('../models/User')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import User from '../models/User'
 
 /**
  * @param {string} url
  * @param {Object} client
  */
-
-module.exports = notifyIfUpdated = async (url, client) => {
+export default async function notifyIfUpdated(url, client) {
   try {
     const users = await User.find({})
 
     users.forEach((user) => {
       user.subscribedMangas.forEach(async (manga) => {
-        serializeTitle = _.kebabCase(_.toLower(manga.title))
-        mangaUrl = url + '/' + serializeTitle
+        const serializeTitle = _.kebabCase(_.toLower(manga.title))
+        const mangaUrl = url + '/' + serializeTitle
 
         const html = await request(mangaUrl)
         let counter = 0
+        let date
 
         const $ = cheerio.load(html)
         const anchor = $('#listing tr:last-child a').attr('href')

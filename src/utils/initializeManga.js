@@ -1,8 +1,8 @@
-const request = require('request-promise')
-const cheerio = require('cheerio')
-const _ = require('lodash')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
 
-module.exports = getMangaList = async () => {
+export default async function getMangaList() {
   try {
     const mangaList = []
     const html = await request(`https://www.mangareader.net/alphabetical`)

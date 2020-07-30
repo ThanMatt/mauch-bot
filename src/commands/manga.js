@@ -1,7 +1,7 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const { findRelatedManga, searchManga } = require('../utils')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import { findRelatedManga } from '../utils'
 
 module.exports = {
   name: 'manga',

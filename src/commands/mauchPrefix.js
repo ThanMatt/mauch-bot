@@ -1,4 +1,4 @@
-const Guild = require('../models/Guild')
+import Guild from '../models/Guild'
 
 module.exports = {
   name: 'mauchPrefix',

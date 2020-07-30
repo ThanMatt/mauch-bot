@@ -1,14 +1,14 @@
-const cheerio = require('cheerio')
-const _ = require('lodash')
-const request = require('request-promise')
-const User = require('../models/User')
-const { findRelatedManga } = require('../utils')
+import cheerio from 'cheerio'
+import _ from 'lodash'
+import request from 'request-promise'
+import User from '../models/User'
+import { findRelatedManga } from '../utils'
 
 module.exports = {
   name: 'subscribe',
   description: 'Subscribes a manga',
   async execute(message, title, url, mangaList, primaryColor) {
-    serializeTitle = _.kebabCase(_.toLower(title))
+    const serializeTitle = _.kebabCase(_.toLower(title))
 
     try {
       if (title.length <= 2) {

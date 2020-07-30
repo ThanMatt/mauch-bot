@@ -8,10 +8,14 @@ COPY yarn.lock .
 
 RUN yarn install
 
-RUN yarn global add nodemon
-
 RUN yarn global add @babel/node
 
 COPY . .
 
+RUN ls -aslh
+
+RUN yarn run build
+
 EXPOSE 4000
+
+CMD ["yarn", "start"]

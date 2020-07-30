@@ -5,7 +5,7 @@ services:
     env_file:
       - .env.development
     volumes:
-      - .:/usr/src/app
+      - .:/usr/app
     ports:
       - 4000:4000
     command: yarn run start:dev
