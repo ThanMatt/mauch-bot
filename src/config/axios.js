@@ -1,11 +1,9 @@
-const axios = require('axios').default
+import axios from 'axios'
 
-const API = axios.create({
+export default axios.create({
   baseURL: process.env.API_SOURCE,
   headers: {
     'Content-Type': 'application/vnd.api+json',
     Accept: 'application/vnd.api+json'
   }
 })
-
-module.exports = API

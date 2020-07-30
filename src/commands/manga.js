@@ -1,7 +1,8 @@
 import cheerio from 'cheerio'
 import _ from 'lodash'
 import request from 'request-promise'
-import { findRelatedManga } from '../utils'
+import { findRelatedManga, searchManga } from '../utils'
+import Discord from 'discord.js'
 
 module.exports = {
   name: 'manga',
@@ -10,60 +11,23 @@ module.exports = {
     if (title.length <= 2) {
       message.channel.send('Please enter at least 3 characters')
     } else {
-      const manga = searchManga(title)
+      const manga = await searchManga(title)
 
-      if (manga.length) {
-        message.channel.send(manga[0].attributes.canonicalName)
+      if (manga) {
+        console.log(manga)
+        const embedMessage = new Discord.MessageEmbed()
+          .setColor('#7b6357')
+          .setTitle(manga.title)
+          .setURL(manga.kitsuUrl)
+          .setThumbnail(manga.posterImage)
+          .addFields(
+            { name: 'Synopsis:', value: manga.synopsis },
+            { name: 'Chapters:', value: manga.chapters }
+          )
+          .setTimestamp(manga.updatedAt)
+          .setFooter('Last updated')
+        message.channel.send(embedMessage)
       }
-
-      // serializeTitle = _.kebabCase(_.toLower(title))
-      // mangaURL = url + '/' + serializeTitle
-      // request(mangaURL)
-      //   .then((html) => {
-      //     counter = 0
-      //     const $ = cheerio.load(html)
-      //     const thumbnail = $('#mangaimg img').attr('src')
-      //     const anchor = $('#listing tr:last-child a').attr('href')
-      //     latestChapterURL = url + anchor //!! concats the base url with the latest manga chapter url
-      //     $('#listing tr td:last-child').each((i, el) => {
-      //       //!! Counts how many chapters and retrieves the latest date
-      //       counter++
-      //       date = $(el).text()
-      //     })
-      //     message.channel.send({
-      //       embed: {
-      //         color: primaryColor,
-      //         thumbnail: {
-      //           url: thumbnail
-      //         },
-      //         title: _.startCase(title),
-      //         description: `
-      //         Manga URL: ${mangaURL}
-      //         Chapters loaded: ${counter}
-      //         Latest chapter date: ${date}
-      //         Latest chapter URL: ${latestChapterURL}
-      //         `
-      //       }
-      //     })
-      //   })
-      //   .catch((err) => {
-      //     if (err.statusCode === 404) {
-      //       const relatedSearch = findRelatedManga(mangaList, title)
-      //       if (relatedSearch.length) {
-      //         message.channel.send({
-      //           embed: {
-      //             color: primaryColor,
-      //             title: 'Did you mean',
-      //             description: `
-      //             ${relatedSearch.join('\n')}
-      //             `
-      //           }
-      //         })
-      //       } else {
-      //         message.channel.send('No manga found')
-      //       }
-      //     }
-      //   })
     }
   }
 }
