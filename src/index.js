@@ -12,7 +12,6 @@ import {
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
-console.log('yawa')
 
 const commandFiles = fs
   .readdirSync('./src/commands')
