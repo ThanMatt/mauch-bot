@@ -38,57 +38,26 @@ client.on('ready', () => {
   client.user.setActivity('?help', { type: 'PLAYING' })
 })
 
-const url = 'https://www.mangareader.net'
 const primaryColor = 0x7b6357
 
 // !! Polling for updates
-setInterval(() => {
-  notifyIfUpdated(url, client)
-}, 10000)
+// setInterval(() => {
+//   notifyIfUpdated(url, client)
+// }, 10000)
 
-let mangaList = []
-initializeManga().then((data) => {
-  mangaList = data
-  client.on('message', async (receivedMessage) => {
-    const { guild, author, content } = receivedMessage
+client.on('message', async (receivedMessage) => {
+  const { guild, author, content } = receivedMessage
 
-    try {
-      if (guild) {
-        const currentGuild = await Guild.findOne({ guildId: guild.id })
+  try {
+    if (guild) {
+      const currentGuild = await Guild.findOne({ guildId: guild.id })
 
-        if (!currentGuild) {
-          const newGuild = new Guild({ guildId: guild.id, guildPrefix: '?' })
-          newGuild.save()
+      if (!currentGuild) {
+        const newGuild = new Guild({ guildId: guild.id, guildPrefix: '?' })
+        newGuild.save()
 
-          console.log(`New guild: ${newGuild}`)
+        console.log(`New guild: ${newGuild}`)
 
-          if (author === client.user) {
-            return
-          }
-
-          if (content.startsWith('?')) {
-            processCommand(receivedMessage)
-          }
-        } else {
-          if (author === client.user) {
-            return
-          }
-
-          const guildPrefix = currentGuild.guildPrefix
-
-          if (content.startsWith(guildPrefix)) {
-            console.log(receivedMessage.content)
-            processCommand(receivedMessage)
-          } else if (detectHotword(content)) {
-            if (currentGuild.dadJokeEnabled) {
-              const name = getName(content)
-              receivedMessage.channel.send(`Hi ${name}, I'm dad`)
-            }
-          }
-        }
-
-        // !! For direct messages
-      } else {
         if (author === client.user) {
           return
         }
@@ -96,11 +65,37 @@ initializeManga().then((data) => {
         if (content.startsWith('?')) {
           processCommand(receivedMessage)
         }
+      } else {
+        if (author === client.user) {
+          return
+        }
+
+        const guildPrefix = currentGuild.guildPrefix
+
+        if (content.startsWith(guildPrefix)) {
+          console.log(receivedMessage.content)
+          processCommand(receivedMessage)
+        } else if (detectHotword(content)) {
+          if (currentGuild.dadJokeEnabled) {
+            const name = getName(content)
+            receivedMessage.channel.send(`Hi ${name}, I'm dad`)
+          }
+        }
       }
-    } catch (error) {
-      throw new Error(error)
+
+      // !! For direct messages
+    } else {
+      if (author === client.user) {
+        return
+      }
+
+      if (content.startsWith('?')) {
+        processCommand(receivedMessage)
+      }
     }
-  })
+  } catch (error) {
+    throw new Error(error)
+  }
 })
 
 const processCommand = (receivedMessage) => {
@@ -126,17 +121,18 @@ const processCommand = (receivedMessage) => {
   switch (primaryCommand) {
     case 'manga':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
-      console.log(client.commands.get('manga'))
-      client.commands
-        .get('manga')
-        .execute(receivedMessage, title, url, mangaList, primaryColor)
+      receivedMessage.channel.send('Not available')
+      // client.commands
+      //   .get('manga')
+      //   .execute(receivedMessage, title, url, mangaList, primaryColor)
       break
 
     case 'subscribe':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
-      client.commands
-        .get('subscribe')
-        .execute(receivedMessage, title, url, mangaList, primaryColor)
+      receivedMessage.channel.send('Not available')
+      // client.commands
+      //   .get('subscribe')
+      //   .execute(receivedMessage, title, url, mangaList, primaryColor)
       break
 
     case 'mylist':
