@@ -8,7 +8,7 @@ module.exports = {
       )
       .map((command) => {
         if (
-          command.name === 'subscribe' ||
+          command.name === 'like' ||
           command.name === 'manga' ||
           command.name === 'remove'
         ) {

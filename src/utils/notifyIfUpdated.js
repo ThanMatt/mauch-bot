@@ -34,7 +34,7 @@ export default async function notifyIfUpdated(url, client) {
 
         if (manga.dateReleased !== date || manga.chapters !== counter) {
           client.users.cache
-            .get(user.username)
+            .get(user.id)
             .send(
               `New ${_.startCase(manga.title)} chapter!\n${latestChapterURL}`
             )

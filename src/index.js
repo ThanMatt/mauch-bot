@@ -121,17 +121,14 @@ const processCommand = (receivedMessage) => {
   switch (primaryCommand) {
     case 'manga':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
-      receivedMessage.channel.send('Not available')
-      // client.commands
-      //   .get('manga')
-      //   .execute(receivedMessage, title, url, mangaList, primaryColor)
+      client.commands.get('manga').execute(receivedMessage, title)
       break
 
-    case 'subscribe':
+    case 'like':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
       receivedMessage.channel.send('Not available')
       // client.commands
-      //   .get('subscribe')
+      //   .get('like')
       //   .execute(receivedMessage, title, url, mangaList, primaryColor)
       break
 

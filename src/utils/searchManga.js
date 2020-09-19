@@ -8,6 +8,7 @@ export default async function (title) {
 
   if (data.data.length) {
     return {
+      id: data.data[0].id,
       title: data.data[0].attributes.canonicalTitle,
       synopsis: data.data[0].attributes.synopsis,
       posterImage: data.data[0].attributes.posterImage.original,

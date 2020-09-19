@@ -9,9 +9,9 @@ module.exports = {
         'Enter your subscribed manga that you want to remove'
       )
     } else {
-      const username = message.author.id
+      const userId = message.author.id
 
-      User.findOneAndDelete({ username, mangaSubscribed: manga })
+      User.findOneAndDelete({ userId, mangaSubscribed: manga })
         .then((currentUser) => {
           if (currentUser) {
             message.react('✅')

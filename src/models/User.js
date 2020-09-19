@@ -2,22 +2,18 @@ const Schema = mongoose.Schema
 import mongoose from 'mongoose'
 
 const userSchema = new Schema({
-  username: {
+  userId: {
     type: String,
     required: true
   },
-  subscribedMangas: [
+  likedMangas: [
     {
       title: {
         type: String,
         required: true
       },
-      dateReleased: {
+      mangaId: {
         type: String,
-        required: true
-      },
-      chapters: {
-        type: Number,
         required: true
       }
     }

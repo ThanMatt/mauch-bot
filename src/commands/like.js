@@ -5,8 +5,8 @@ import User from '../models/User'
 import { findRelatedManga } from '../utils'
 
 module.exports = {
-  name: 'subscribe',
-  description: 'Subscribes a manga',
+  name: 'like',
+  description: 'Likes a manga',
   async execute(message, title, url, mangaList, primaryColor) {
     const serializeTitle = _.kebabCase(_.toLower(title))
 
@@ -32,29 +32,24 @@ module.exports = {
           chapters: counter
         }
 
-        const currentUser = await User.findOne({ username: message.author.id })
+        const currentUser = await User.findOne({ userId: message.author.id })
 
         if (currentUser) {
-          const subscribedManga = currentUser.subscribedMangas.find(
+          const likedManga = currentUser.likedMangas.find(
             (manga) => title === manga.title
           )
 
-          if (subscribedManga) {
-            message.channel.send(
-              `You've already subscribed to ${subscribedManga.title}`
-            )
+          if (likedManga) {
+            message.channel.send(`You've already liked ${likedManga.title}`)
           } else {
-            currentUser.subscribedMangas = [
-              ...currentUser.subscribedMangas,
-              mangaBody
-            ]
+            currentUser.likedMangas = [...currentUser.likedMangas, mangaBody]
             currentUser.save()
             message.react('✅')
           }
         } else {
           const newUser = new User({
-            username: message.author.id,
-            subscribedMangas: [mangaBody]
+            userId: message.author.id,
+            likedMangas: [mangaBody]
           })
 
           newUser.save()
