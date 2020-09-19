@@ -30,7 +30,7 @@ module.exports = {
 
         message.channel.send(embedMessage).then((sentEmbed) => {
           sentEmbed.react(emoji)
-          reactionCollector(sentEmbed, manga, emoji, 15000).on(
+          reactionCollector(sentEmbed, emoji, 15000).on(
             'collect',
             async (_, user) => {
               if (!user.bot) {
