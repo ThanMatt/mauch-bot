@@ -16,4 +16,6 @@ RUN ls -aslh
 
 RUN yarn run build
 
+EXPOSE 4000
+
 CMD ["yarn", "start"]
