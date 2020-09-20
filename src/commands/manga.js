@@ -1,69 +1,73 @@
-import cheerio from 'cheerio'
-import _ from 'lodash'
-import request from 'request-promise'
-import { findRelatedManga } from '../utils'
+import { searchManga } from '../utils'
+import Discord from 'discord.js'
+import { reactionCollector } from '../utils'
+import User from '../models/User'
 
 module.exports = {
   name: 'manga',
   description: 'Checks the info of the specified manga',
-  execute(message, title, url, mangaList, primaryColor) {
-    console.log('title', title)
-    if (title.length <= 2) {
-      message.channel.send('Please enter at least 3 characters')
-    } else {
-      const serializeTitle = _.kebabCase(_.toLower(title))
-      const mangaURL = url + '/' + serializeTitle
+  async execute(message, { title }) {
+    try {
+      if (title.length <= 2) {
+        message.channel.send('Please enter at least 3 characters')
+      } else {
+        const manga = await searchManga(title)
 
-      request(mangaURL)
-        .then((html) => {
-          let counter = 0
-          const $ = cheerio.load(html)
-          const thumbnail = $('#mangaimg img').attr('src')
-          const anchor = $('#listing tr:last-child a').attr('href')
+        if (manga) {
+          console.log(manga)
+          const emoji = '💗'
+          const embedMessage = new Discord.MessageEmbed()
+            .setColor('#7b6357')
+            .setTitle(manga.title)
+            .setURL(manga.kitsuUrl)
+            .setThumbnail(manga.posterImage)
+            .addFields(
+              { name: 'Synopsis:', value: manga.synopsis },
+              { name: 'Chapters:', value: manga.chapters, inline: true },
+              { name: 'Average Rating:', value: manga.averageRating ? `${manga.averageRating}%` : 'N/A', inline: true }
+            )
+            .setFooter('Powered by Kitsu API')
 
-          const latestChapterURL = url + anchor //!! concats the base url with the latest manga chapter url
-
-          $('#listing tr td:last-child').each((i, el) => {
-            //!! Counts how many chapters and retrieves the latest date
-            counter++
-            date = $(el).text()
-          })
-
-          message.channel.send({
-            embed: {
-              color: primaryColor,
-              thumbnail: {
-                url: thumbnail
-              },
-              title: _.startCase(title),
-              description: `
-              Manga URL: ${mangaURL}
-              Chapters loaded: ${counter}
-              Latest chapter date: ${date}
-              Latest chapter URL: ${latestChapterURL}
-              `
-            }
-          })
-        })
-        .catch((err) => {
-          if (err.statusCode === 404) {
-            const relatedSearch = findRelatedManga(mangaList, title)
-
-            if (relatedSearch.length) {
-              message.channel.send({
-                embed: {
-                  color: primaryColor,
-                  title: 'Did you mean',
-                  description: `
-                  ${relatedSearch.join('\n')} 
-                  `
+          message.channel.send(embedMessage).then((sentEmbed) => {
+            sentEmbed.react(emoji)
+            reactionCollector(sentEmbed, emoji, 25000).on('collect', async (_, user) => {
+              if (!user.bot) {
+                const currentUser = await User.findOne({
+                  userId: user.id
+                })
+                const mangaBody = {
+                  title: manga.title,
+                  mangaId: manga.id
                 }
-              })
-            } else {
-              message.channel.send('No manga found')
-            }
-          }
-        })
+
+                if (currentUser) {
+                  const likedManga = currentUser.likedMangas.find((likedManga) => likedManga.title === manga.title)
+
+                  if (likedManga) {
+                    message.channel.send(`<@${user.id}> You've already liked ${manga.title}`)
+                  } else {
+                    currentUser.likedMangas = [...currentUser.likedMangas, mangaBody]
+                    currentUser.save()
+                    message.channel.send(`<@${user.id}> liked ${manga.title}`)
+                  }
+                } else {
+                  const newUser = new User({
+                    userId: user.id,
+                    likedMangas: [mangaBody]
+                  })
+                  newUser.save()
+                  message.channel.send(`<@${user.id}> liked ${manga.title}`)
+                }
+              }
+            })
+          })
+        } else {
+          message.channel.send('No manga found :(')
+        }
+      }
+    } catch (error) {
+      message.channel.send('There was an error. Please try again')
+      throw error
     }
   }
 }

@@ -10,9 +10,7 @@ module.exports = {
 
         guild.dadJokeEnabled = !guild?.dadJokeEnabled
         guild.save()
-        message.channel.send(
-          `Dad joke ${guild.dadJokeEnabled ? 'enabled' : 'disabled'}`
-        )
+        message.channel.send(`Dad joke ${guild.dadJokeEnabled ? 'enabled' : 'disabled'}`)
       }
     } catch (error) {
       throw error

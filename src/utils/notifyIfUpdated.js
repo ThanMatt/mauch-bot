@@ -33,24 +33,18 @@ export default async function notifyIfUpdated(url, client) {
         })
 
         if (manga.dateReleased !== date || manga.chapters !== counter) {
-          client.users.cache
-            .get(user.username)
-            .send(
-              `New ${_.startCase(manga.title)} chapter!\n${latestChapterURL}`
-            )
+          client.users.cache.get(user.id).send(`New ${_.startCase(manga.title)} chapter!\n${latestChapterURL}`)
 
-          user.subscribedMangas = user.subscribedMangas.map(
-            (subscribedManga) => {
-              if (subscribedManga.title === manga.title) {
-                return {
-                  ...subscribedManga._doc,
-                  dateReleased: date,
-                  chapters: counter
-                }
+          user.subscribedMangas = user.subscribedMangas.map((subscribedManga) => {
+            if (subscribedManga.title === manga.title) {
+              return {
+                ...subscribedManga._doc,
+                dateReleased: date,
+                chapters: counter
               }
-              return subscribedManga
             }
-          )
+            return subscribedManga
+          })
           user.save()
         }
       })

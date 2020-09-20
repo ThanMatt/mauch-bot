@@ -3,16 +3,16 @@ import Guild from '../models/Guild'
 module.exports = {
   name: 'mauchPrefix',
   description: 'Changes the server prefix',
-  async execute(message, assignedPrefix) {
+  async execute(message, { prefix }) {
     try {
       if (message.guild) {
         const guild = await Guild.findOneAndUpdate(
           { guildId: message.guild.id },
           {
-            guildPrefix: assignedPrefix
+            guildPrefix: prefix
           }
         )
-        console.log(`Changed prefix into ${assignedPrefix}`)
+        console.log(`Changed prefix into ${prefix}`)
         console.log(guild)
         message.react('✅')
       }
