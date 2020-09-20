@@ -1,17 +1,11 @@
 module.exports = {
   name: 'help',
   description: 'Send help command',
-  execute(message, color, prefix, commands) {
+  execute(message, { color, prefix, commands }) {
     const tips = commands
-      .filter(
-        (command) => command.name !== 'reset' && command.name !== 'status'
-      )
+      .filter((command) => command.name !== 'reset' && command.name !== 'status')
       .map((command) => {
-        if (
-          command.name === 'like' ||
-          command.name === 'manga' ||
-          command.name === 'remove'
-        ) {
+        if (command.name === 'like' || command.name === 'manga' || command.name === 'remove') {
           return `**${prefix}${command.name}** \`manga\` \n${command.description}`
         }
 

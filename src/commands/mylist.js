@@ -3,7 +3,7 @@ import User from '../models/User'
 module.exports = {
   name: 'mylist',
   description: "Shows the user's liked manga list",
-  async execute(message, primaryColor) {
+  async execute(message, { primaryColor }) {
     const userId = message.author.id
 
     try {
@@ -11,9 +11,7 @@ module.exports = {
 
       if (currentUser) {
         if (currentUser.likedMangas.length) {
-          const mangaTitles = currentUser.likedMangas.map(
-            (manga) => manga.title
-          )
+          const mangaTitles = currentUser.likedMangas.map((manga) => manga.title)
           message.channel.send({
             embed: {
               color: primaryColor,

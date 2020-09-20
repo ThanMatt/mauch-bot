@@ -3,19 +3,12 @@ import mongoose from 'mongoose'
 import Discord from 'discord.js'
 import fs from 'fs'
 import Guild from './models/Guild.js'
-import {
-  notifyIfUpdated,
-  initializeManga,
-  getName,
-  detectHotword
-} from './utils'
+import { notifyIfUpdated, getName, detectHotword } from './utils'
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
 
-const commandFiles = fs
-  .readdirSync('./src/commands')
-  .filter((file) => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./src/commands').filter((file) => file.endsWith('.js'))
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
@@ -110,60 +103,50 @@ const processCommand = (receivedMessage) => {
     receivedMessage.channel.send('no command')
   }
 
-  console.log(
-    `[${new Date(phTime)}] ${
-      receivedMessage.author.id
-    } issued ${primaryCommand} command`
-  )
+  console.log(`[${new Date(phTime)}] ${receivedMessage.author.id} issued ${primaryCommand} command`)
   let title
   let prefix
+  let manga
 
   switch (primaryCommand) {
     case 'manga':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
-      client.commands.get('manga').execute(receivedMessage, title)
+      client.commands.get('manga').execute(receivedMessage, { title })
       break
 
     case 'like':
       title = receivedMessage.content.substr(primaryCommand.length + 2)
-      receivedMessage.channel.send('Not available')
-      // client.commands
-      //   .get('like')
-      //   .execute(receivedMessage, title, url, mangaList, primaryColor)
+      client.commands.get('like').execute(receivedMessage, { title })
       break
 
     case 'mylist':
-      client.commands.get('mylist').execute(receivedMessage, primaryColor)
+      client.commands.get('mylist').execute(receivedMessage, { primaryColor })
       break
 
     case 'remove':
       manga = receivedMessage.content.substr(primaryCommand.length + 2)
-      client.commands.get('remove').execute(receivedMessage, manga)
+      client.commands.get('remove').execute(receivedMessage, { manga: manga.toLowerCase() })
       break
 
     case 'status':
       console.log(`MongoDB state: ${status}`)
-      client.commands.get('status').execute(receivedMessage, status, client)
+      client.commands.get('status').execute(receivedMessage, { status, client })
       break
 
     case 'help':
       prefix = receivedMessage.content[0]
-      client.commands
-        .get('help')
-        .execute(receivedMessage, primaryColor, prefix, client.commands)
+      client.commands.get('help').execute(receivedMessage, { primaryColor, prefix, commands: client.commands })
       break
 
     case 'dad':
       if (receivedMessage.guild) {
         client.commands.get('dad').execute(receivedMessage)
       } else {
-        client.users
-          .get(receivedMessage.author.id)
-          .send(`You're not in a server 😑`)
+        client.users.get(receivedMessage.author.id).send(`You're not in a server 😑`)
       }
 
     case 'reset':
-      client.commands.get('reset').execute(receivedMessage, client, status)
+      client.commands.get('reset').execute(receivedMessage, { client, status })
       break
 
     case 'mauchPrefix':
@@ -173,12 +156,10 @@ const processCommand = (receivedMessage) => {
         if (prefix.length > 1 || prefix.length < 1) {
           receivedMessage.channel.send(`Must be at least one character long`)
         } else {
-          client.commands.get('mauchPrefix').execute(receivedMessage, prefix)
+          client.commands.get('mauchPrefix').execute(receivedMessage, { prefix })
         }
       } else {
-        client.users
-          .get(receivedMessage.author.id)
-          .send(`You're not in a server 😑`)
+        client.users.get(receivedMessage.author.id).send(`You're not in a server 😑`)
       }
       break
 
