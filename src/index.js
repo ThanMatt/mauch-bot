@@ -70,6 +70,7 @@ client.on('message', async (receivedMessage) => {
           processCommand(receivedMessage)
         } else if (detectHotword(content)) {
           if (currentGuild.dadJokeEnabled) {
+            console.log('Someone got fooled')
             const name = getName(content)
             receivedMessage.channel.send(`Hi ${name}, I'm dad`)
           }
