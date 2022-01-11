@@ -4,33 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon --exec babel-node src/index.js",
+    "start:dev": "nodemon -L --exec babel-node src/index.js",
     "start": "node build/index.js",
     "build": "babel src -d build",
     "lint": "eslint ."
-  },
-  "engines": {
-    "node": "^14.0.0"
   },
   "keywords": [],
   "author": "Aethan Matthew Ilagan",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.10.5",
+    "@babel/runtime": "^7.15.3",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "discord.js": "^12.1.1",
     "lodash": "^4.17.15",
     "mongoose": "^5.9.7",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "syllable": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.10.5",
-    "@babel/node": "^7.10.5",
-    "@babel/plugin-transform-runtime": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.9",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
