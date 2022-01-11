@@ -1,16 +1,16 @@
-version: '2'
+version: '3.8'
 services:
-  app:
+  mauch-bot: &mauch-bot
     build: .
     env_file:
       - .env.development
     volumes:
-      - .:/usr/app
+      - .:/usr/mauch-bot
     ports:
       - 4000:4000
-    command: yarn run start:dev
     depends_on:
       - db
+    stdin_open: true
 
   db:
     image: mongo:4.0-xenial
