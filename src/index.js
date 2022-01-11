@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import Discord from 'discord.js'
 import fs from 'fs'
 import Guild from './models/Guild.js'
-import { notifyIfUpdated, getName, detectHotword } from './utils'
+import { notifyIfUpdated, getName, detectHotword, createHaiku, detectSyllables } from './utils'
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -68,6 +68,16 @@ client.on('message', async (receivedMessage) => {
         if (content.startsWith(guildPrefix)) {
           console.log(receivedMessage.content)
           processCommand(receivedMessage)
+        } else if (detectSyllables(content)) {
+          if (currentGuild.haikuMakerEnabled) {
+            const haiku = await createHaiku(content)
+            if (haiku?.length) {
+              console.log(author.id)
+              receivedMessage.channel.send(
+                new Discord.MessageEmbed().setColor('#7b6357').addFields({ name: haiku, value: `- <@${author.id}>` })
+              )
+            }
+          }
         } else if (detectHotword(content)) {
           if (currentGuild.dadJokeEnabled) {
             console.log('Someone got fooled')
@@ -142,6 +152,13 @@ const processCommand = (receivedMessage) => {
     case 'dad':
       if (receivedMessage.guild) {
         client.commands.get('dad').execute(receivedMessage)
+      } else {
+        client.users.get(receivedMessage.author.id).send(`You're not in a server 😑`)
+      }
+
+    case 'haiku':
+      if (receivedMessage.guild) {
+        client.commands.get('haiku').execute(receivedMessage)
       } else {
         client.users.get(receivedMessage.author.id).send(`You're not in a server 😑`)
       }

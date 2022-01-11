@@ -13,6 +13,10 @@ const guildSchema = new Schema({
   dadJokeEnabled: {
     type: Boolean,
     default: false
+  },
+  haikuMakerEnabled: {
+    type: Boolean,
+    default: true
   }
 })
 
