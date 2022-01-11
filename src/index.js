@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import Discord from 'discord.js'
 import fs from 'fs'
 import Guild from './models/Guild.js'
-import { notifyIfUpdated, getName, detectHotword } from './utils'
+import { notifyIfUpdated, getName, detectHotword, createHaiku, isHaiku } from './utils'
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
@@ -68,6 +68,15 @@ client.on('message', async (receivedMessage) => {
         if (content.startsWith(guildPrefix)) {
           console.log(receivedMessage.content)
           processCommand(receivedMessage)
+        } else if (isHaiku(content)) {
+          const haiku = await createHaiku(content)
+          console.log(haiku)
+          if (haiku?.length) {
+            console.log(author.id)
+            receivedMessage.channel.send(
+              new Discord.MessageEmbed().setColor('#7b6357').addFields({ name: haiku, value: `- <@${author.id}>` })
+            )
+          }
         } else if (detectHotword(content)) {
           if (currentGuild.dadJokeEnabled) {
             console.log('Someone got fooled')
